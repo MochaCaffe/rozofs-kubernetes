@@ -112,8 +112,6 @@ var _ controller.Provisioner = &rozoProvisioner{}
 func (p *rozoProvisioner) Provision(options controller.ProvisionOptions) (*v1.PersistentVolume, error) {
 	exportid := getNextExport()
 	vid := getNextVid()
-	//
-	//A terminer
 
         request := "rozo volume expand %s"
 	cmd := fmt.Sprintf(request,p.clusternodes)
