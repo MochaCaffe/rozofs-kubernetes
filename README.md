@@ -2,7 +2,7 @@
 
 This is a functional implementation of Rozofs distributed filesystem on Kubernetes.  
 This project features a daemonset to bring up Rozofs daemons on all kubernetes nodes,
-and a deployment to bring up a provisioner for dynamic Rozofs volume provisioning.
+and a deployment to bring up a provisioner for dynamic Rozofs volume provisioning.  
 This project includes code from [kvaps/docker-rozofs]  and [kubernetes-sigs/sig-storage-lib-external-provisioner] 
 
 ## About Rozofs
@@ -14,7 +14,7 @@ Github: https://github.com/kvaps/docker-rozofs
   - rpcbind has to be installed on each node
 ## Deployment:
 
-  - Define the export node and the cluster nodes on which Rozofs will create volumes, by creating a kubernetes secret. The fileystem requires a layout with least 4 nodes in the cluster in order to deploy volumes. More info: http://rozofs.github.io/rozofs/master/AboutRozoFS.html#layouts
+  - Define the export node and the cluster nodes on which Rozofs will create volumes, by creating a kubernetes secret.  The fileystem requires a layout with least 4 nodes in the cluster in order to deploy volumes. More info: http://rozofs.github.io/rozofs/master/AboutRozoFS.html#layouts
 ```
 $ export EXPORTNODE="<export_node>"
 $ export CLUSTER="<node1> <node2> <node3> <node4> ..."
