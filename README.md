@@ -11,7 +11,7 @@ Github: https://github.com/kvaps/docker-rozofs
 
 ## Requirements
   - Each node runs systemd
-  - rpcbind has to be installed on each node
+  - rpcbind & [jq](https://stedolan.github.io/jq/) have to be installed on each node
 ## Deployment:
 
   - Define the export node and the cluster nodes on which Rozofs will create volumes, by creating a kubernetes secret.  The fileystem requires a layout with least 4 nodes in the cluster in order to deploy volumes. More info: http://rozofs.github.io/rozofs/master/AboutRozoFS.html#layouts
