@@ -9,7 +9,7 @@ Github: https://github.com/kvaps/docker-rozofs
 
 
 ## Features:
-  - A deamonset to bring up Rozofs daemons on all nodes from the cluster. Credit: [kvaps/docker-rozofs]
+  - A deamonset to bring up Rozofs daemons on all nodes from the cluster.
   - A deployment to bring up the provisioner
 ## Prerequisites
   - Each node runs systemd
@@ -41,7 +41,12 @@ Deploy a sample pod
 ```
 $ kubectl apply -f https://github.com/magnet54/rozofs-provisioner/raw/master/provisioner/test-pod.yaml
 ```
+## Credit
+[dpertin/docker-rozofs]
+[kvaps/docker-rozofs]
+[rozofs/rozofs]
 
-
+   [rozofs/rozofs]: <https://github.com/rozofs/rozofs>
+   [dpertin/docker-rozofs]: <https://github.com/dpertin/docker-rozofs>
    [kvaps/docker-rozofs]: <https://github.com/kvaps/docker-rozofs>
    [kubernetes-sigs/sig-storage-lib-external-provisioner]: <https://github.com/kubernetes-sigs/sig-storage-lib-external-provisioner>
