@@ -20,7 +20,7 @@ Github: https://github.com/kvaps/docker-rozofs
 ```
 $ export EXPORTNODE="<export_node>"
 $ export CLUSTER="<node1> <node2> <node3> <node4> ..."
-$ kubectl create secret generic rozofs-secret --from-literal=clusternodes="${CLUSTER}"" --from-literal=exportnode="${EXPORTNODE}""
+$ kubectl create secret generic rozofs-secret --from-literal=clusternodes="${CLUSTER}" --from-literal=exportnode="${EXPORTNODE}"
 ```
   - Deploy the daemonset and the provisioner:
 ```
