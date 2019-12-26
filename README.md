@@ -16,7 +16,7 @@ Github: https://github.com/kvaps/docker-rozofs
 
   - Define the export node and the cluster nodes on which Rozofs will create volumes, by creating a kubernetes secret. The fileystem requires at least 4 nodes in the cluster in order to deploy volumes. More info: http://rozofs.github.io/rozofs/master/AboutRozoFS.html#layouts
 ```
-$ export EXPORTNODE="<export_node>""
+$ export EXPORTNODE="<export_node>"
 $ export CLUSTER="<node1> <node2> <node3> <node4> ..."
 $ kubectl create secret generic rozofs-secret --from-literal=clusternodes="${CLUSTER}"" --from-literal=exportnode="${EXPORTNODE}""
 ```
