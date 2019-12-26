@@ -22,8 +22,8 @@ $ kubectl create secret generic rozofs-secret --from-literal=clusternodes="${CLU
 ```
   - Deploy the daemonset and the provisioner:
 ```
-$ kubectl apply -f https://github.com/magnet54/rozofs-provisioner/raw/master/daemonset.yaml
-$ kubectl apply -f https://github.com/magnet54/rozofs-provisioner/raw/master/provisioner/deployment.yaml
+$ kubectl apply -f https://github.com/MochaCaffe/rozofs-provisioner/raw/master/daemonset.yaml
+$ kubectl apply -f https://github.com/MochaCaffe/rozofs-provisioner/raw/master/provisioner/deployment.yaml
 ```
 A storage class called "rozofs" is automatically created with the provisioner.
 
@@ -31,13 +31,13 @@ A storage class called "rozofs" is automatically created with the provisioner.
 The provisioner watches for Persistent Volume Claims that request a new PersistentVolume, and automatically provision a new Rozofs volume to be binded with the claim.  
 A Persistent Volume defines parameters for the FlexVolume driver in order to mount a volume into a pod
 ```
-$ kubectl apply -f https://github.com/magnet54/rozofs-provisioner/raw/master/provisioner/claim.yaml
+$ kubectl apply -f https://github.com/MochaCaffe/rozofs-provisioner/raw/master/provisioner/claim.yaml
 ```
 
 Deploy a sample pod
 
 ```
-$ kubectl apply -f https://github.com/magnet54/rozofs-provisioner/raw/master/provisioner/test-pod.yaml
+$ kubectl apply -f https://github.com/MochaCaffe/rozofs-provisioner/raw/master/provisioner/test-pod.yaml
 ```
 ## Credit
 [dpertin/docker-rozofs]  
