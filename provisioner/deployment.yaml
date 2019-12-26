@@ -35,3 +35,70 @@ spec:
                 secretKeyRef:
                   name: rozofs-secret
                   key: clusternodes
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: rozofs
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: rozofs
+rules:
+  - apiGroups: [""]
+    resources: ["persistentvolumes"]
+    verbs: ["get", "list", "watch", "create", "delete"]
+  - apiGroups: [""]
+    resources: ["persistentvolumeclaims"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["storage.k8s.io"]
+    resources: ["storageclasses"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["events"]
+    verbs: ["create", "update", "patch"]
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: rozofs
+subjects:
+  - kind: ServiceAccount
+    name: rozofs
+    namespace: default
+roleRef:
+  kind: ClusterRole
+  name: rozofs
+  apiGroup: rbac.authorization.k8s.io
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: leader-locking-rozofs
+rules:
+  - apiGroups: [""]
+    resources: ["endpoints"]
+    verbs: ["get", "update", "patch"]
+  - apiGroups: [""]
+    resources: ["endpoints"]
+    verbs: ["list", "watch", "create"]
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: leader-locking-rozofs
+subjects:
+  - kind: ServiceAccount
+    name: rozofs
+    namespace: default
+roleRef:
+  kind: Role
+  name: leader-locking-rozofs
+  apiGroup: rbac.authorization.k8s.io
+---
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: rozofs
+provisioner: mushroommagnet/rozofs

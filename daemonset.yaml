@@ -75,4 +75,3 @@ spec:
       - name: drvmount
         hostPath:
           path: /usr/libexec/kubernetes/kubelet-plugins/volume/exec
-
