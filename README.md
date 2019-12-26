@@ -1,6 +1,6 @@
 # Rozofs Provisioner
 
-This is a fonctional implementation of Rozofs distributed filesystem on Kubernetes.
+This is a functional implementation of Rozofs distributed filesystem on Kubernetes.
 This project includes code from [kvaps/docker-rozofs]  and [kubernetes-sigs/sig-storage-lib-external-provisioner] 
 
 ## About Rozofs
@@ -20,7 +20,7 @@ Github: https://github.com/kvaps/docker-rozofs
 ```
 $ export EXPORTNODE="<export_node>"
 $ export CLUSTER="<node1> <node2> <node3> <node4> ..."
-$ kubectl create secret generic rozofs-secret --from-literal=clusternodes="${CLUSTER}"" --from-literal=exportnode="${EXPORTNODE}""
+$ kubectl create secret generic rozofs-secret --from-literal=clusternodes="${CLUSTER}" --from-literal=exportnode="${EXPORTNODE}"
 ```
   - Deploy the daemonset and the provisioner:
 ```
