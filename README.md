@@ -1,17 +1,15 @@
 # Rozofs Provisioner
 
-This is a functional implementation of Rozofs distributed filesystem on Kubernetes.
+This is a functional implementation of Rozofs distributed filesystem on Kubernetes.  
+This project features a daemonset to bring up Rozofs daemons on all kubernetes nodes,
+and a deployment to bring up a provisioner for dynamic Rozofs volume provisioning.
 This project includes code from [kvaps/docker-rozofs]  and [kubernetes-sigs/sig-storage-lib-external-provisioner] 
 
 ## About Rozofs
-Wiki: http://rozofs.github.io/rozofs/master/AboutRozoFS.html
+Wiki: http://rozofs.github.io/rozofs/master/AboutRozoFS.html  
 Github: https://github.com/kvaps/docker-rozofs
 
-
-## Features:
-  - A deamonset to bring up Rozofs daemons on all nodes from the cluster.
-  - A deployment to bring up the provisioner
-## Prerequisites
+## Requirements
   - Each node runs systemd
   - rpcbind has to be installed on each node
 ## Deployment:
@@ -30,7 +28,7 @@ $ kubectl apply -f https://github.com/magnet54/rozofs-provisioner/raw/master/pro
 A storage class called "rozofs" is automatically created with the provisioner.
 
 ## Create a volume claim
-The provisioner watches for Persistent Volume Claims that request a new PersistentVolume, and automatically provision a new Rozofs volume to be binded with the claim. 
+The provisioner watches for Persistent Volume Claims that request a new PersistentVolume, and automatically provision a new Rozofs volume to be binded with the claim.  
 A Persistent Volume defines parameters for the FlexVolume driver in order to mount a volume into a pod
 ```
 $ kubectl apply -f https://github.com/magnet54/rozofs-provisioner/raw/master/provisioner/claim.yaml
@@ -42,8 +40,8 @@ Deploy a sample pod
 $ kubectl apply -f https://github.com/magnet54/rozofs-provisioner/raw/master/provisioner/test-pod.yaml
 ```
 ## Credit
-[dpertin/docker-rozofs]
-[kvaps/docker-rozofs]
+[dpertin/docker-rozofs]  
+[kvaps/docker-rozofs]  
 [rozofs/rozofs]
 
    [rozofs/rozofs]: <https://github.com/rozofs/rozofs>
