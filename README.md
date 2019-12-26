@@ -29,7 +29,8 @@ A storage class called "rozofs" is automatically created with the provisioner.
 
 ## Create a volume claim
 The provisioner watches for Persistent Volume Claims that request a new PersistentVolume, and automatically provision a new Rozofs volume to be binded with the claim.  
-A Persistent Volume defines parameters for the FlexVolume driver in order to mount a volume into a pod
+A Persistent Volume defines mount parameters for the FlexVolume driver.  
+Create a PVC
 ```
 $ kubectl apply -f https://github.com/MochaCaffe/rozofs-provisioner/raw/master/provisioner/claim.yaml
 ```
