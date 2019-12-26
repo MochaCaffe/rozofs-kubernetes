@@ -1,6 +1,6 @@
 # Rozofs Provisioner
 
-This is a fonctional implementation of Rozofs distributed filesystem on Kubernetes.
+This is a functional implementation of Rozofs distributed filesystem on Kubernetes.
 This project includes code from [kvaps/docker-rozofs]  and [kubernetes-sigs/sig-storage-lib-external-provisioner] 
 
 ## About Rozofs
