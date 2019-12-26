@@ -41,9 +41,9 @@ $ kubectl apply -f https://github.com/MochaCaffe/rozofs-provisioner/raw/master/p
 $ kubectl apply -f https://github.com/MochaCaffe/rozofs-provisioner/raw/master/provisioner/test-pod.yaml
 ```
 ## Credits
-[dpertin/docker-rozofs]  
-[kvaps/docker-rozofs]  
-[rozofs/rozofs]
+  - [dpertin/docker-rozofs]  
+  - [kvaps/docker-rozofs]  
+  - [itnext.io - How to create a custom persistent volume plmugin in Kubernetes](https://itnext.io/how-to-create-a-custom-persistent-volume-plugin-in-kubernetes-via-flexvolume-part-1-f6d9d966e123)
 
    [rozofs/rozofs]: <https://github.com/rozofs/rozofs>
    [dpertin/docker-rozofs]: <https://github.com/dpertin/docker-rozofs>
