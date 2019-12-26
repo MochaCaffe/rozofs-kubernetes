@@ -11,10 +11,12 @@ Github: https://github.com/kvaps/docker-rozofs
 ## Features:
   - A deamonset to bring up Rozofs daemons on all nodes from the cluster. Credit: [kvaps/docker-rozofs]
   - A deployment to bring up the provisioner
-
+## Prerequisites
+  - Each node runs systemd
+  - rpcbind has to be installed on each node
 ## Deployment:
 
-  - Define the export node and the cluster nodes on which Rozofs will create volumes, by creating a kubernetes secret. The fileystem requires at least 4 nodes in the cluster in order to deploy volumes. More info: http://rozofs.github.io/rozofs/master/AboutRozoFS.html#layouts
+  - Define the export node and the cluster nodes on which Rozofs will create volumes, by creating a kubernetes secret. The fileystem requires a layout with least 4 nodes in the cluster in order to deploy volumes. More info: http://rozofs.github.io/rozofs/master/AboutRozoFS.html#layouts
 ```
 $ export EXPORTNODE="<export_node>"
 $ export CLUSTER="<node1> <node2> <node3> <node4> ..."
