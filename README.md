@@ -39,7 +39,7 @@ Deploy a sample pod
 ```
 $ kubectl apply -f https://github.com/MochaCaffe/rozofs-provisioner/raw/master/provisioner/test-pod.yaml
 ```
-## Credit
+## Credits
 [dpertin/docker-rozofs]  
 [kvaps/docker-rozofs]  
 [rozofs/rozofs]
