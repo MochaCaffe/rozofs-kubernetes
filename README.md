@@ -35,7 +35,7 @@ A Persistent Volume defines mount parameters for the FlexVolume driver.
 $ kubectl apply -f https://github.com/MochaCaffe/rozofs-provisioner/raw/master/provisioner/claim.yaml
 ```
 
-  - Deploy a sample pod
+  - Then, mount the volume into a sample pod
 
 ```
 $ kubectl apply -f https://github.com/MochaCaffe/rozofs-provisioner/raw/master/provisioner/test-pod.yaml
