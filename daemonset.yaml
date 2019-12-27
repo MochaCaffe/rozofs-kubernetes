@@ -49,7 +49,7 @@ spec:
         - name: mnt
           mountPath: /mnt
           mountPropagation: Bidirectional
-        - name: drvmount
+        - name: driver
           mountPath: /flexmnt
         securityContext:
           privileged: true
@@ -62,16 +62,16 @@ spec:
       volumes:
       - name: config
         hostPath:
-          path: /data/local/config/rozofs
+          path: /var/lib/rozofs/config
       - name: data
         hostPath:
-          path: /data/local/data/rozofs
+          path: /var/lib/rozofs/data
       - name: systemd-run
         hostPath:
           path: /var/run/systemd
       - name: mnt
         hostPath:
           path: /mnt
-      - name: drvmount
+      - name: driver
         hostPath:
           path: /usr/libexec/kubernetes/kubelet-plugins/volume/exec
