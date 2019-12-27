@@ -7,7 +7,7 @@ This project includes code from [kvaps/docker-rozofs]  and [kubernetes-sigs/sig-
 
 ## About Rozofs
 Wiki: http://rozofs.github.io/rozofs/master/AboutRozoFS.html  
-Github: https://github.com/kvaps/docker-rozofs
+Github: https://github.com/rozofs/rozofs
 
 ## Requirements
   - Each node runs systemd
