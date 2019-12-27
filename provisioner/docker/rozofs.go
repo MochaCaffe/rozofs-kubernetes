@@ -214,8 +214,6 @@ func main() {
 	// the controller
 	rozoProvisioner := NewRozoProvisioner()
 
-	// Start the provision controller which will dynamically provision hostPath
-	// PVs
 	pc := controller.NewProvisionController(clientset, provisionerName, rozoProvisioner, serverVersion.GitVersion)
 	pc.Run(wait.NeverStop)
 }
