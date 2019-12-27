@@ -2,7 +2,7 @@
 
 This is a functional implementation of Rozofs distributed filesystem on Kubernetes.  
 This project features a daemonset to bring up Rozofs daemons on all kubernetes nodes,
-and a deployment to bring up a provisioner for dynamic volume provisioning.  
+and a deployment to bring up a provisioner for dynamic Rozofs volume provisioning.  
 This project includes code from [kvaps/docker-rozofs]  and [kubernetes-sigs/sig-storage-lib-external-provisioner] 
 
 ## About Rozofs
