@@ -2,7 +2,7 @@
 
 This is a functional implementation of Rozofs distributed filesystem on Kubernetes.  
 This project features a daemonset to bring up Rozofs daemons on all kubernetes nodes,
-and a deployment to bring up a provisioner for dynamic Rozofs volume provisioning.  
+and a deployment to bring up a provisioner for dynamic volume provisioning.  
 This project includes code from [kvaps/docker-rozofs]  and [kubernetes-sigs/sig-storage-lib-external-provisioner] 
 
 ## About Rozofs
@@ -28,7 +28,7 @@ $ kubectl apply -f https://github.com/MochaCaffe/rozofs-provisioner/raw/master/p
 A storage class called "rozofs" is automatically created with the provisioner.
 
 ## Create a volume claim
-The provisioner watches for Persistent Volume Claims that request a new Persistent Volume, and automatically provision a new volume to be binded with the claim, using "rozofs" Storage Class.  
+The provisioner watches for Persistent Volume Claims that request a new Persistent Volume, and automatically provisions a new volume to be binded with the claim, using "rozofs" Storage Class.  
 A Persistent Volume defines mount parameters for the [FlexVolume driver](https://github.com/kubernetes/community/blob/master/contributors/devel/sig-storage/flexvolume.md).  
   - Create a PVC
 ```
