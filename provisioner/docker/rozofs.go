@@ -25,6 +25,7 @@ import (
 	"sigs.k8s.io/sig-storage-lib-external-provisioner/controller"
         "fmt"
 	"strconv"
+	"math/rand"
 	"k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/wait"
@@ -110,9 +111,10 @@ var _ controller.Provisioner = &rozoProvisioner{}
 
 // Provision creates a storage asset and returns a PV object representing it.
 func (p *rozoProvisioner) Provision(options controller.ProvisionOptions) (*v1.PersistentVolume, error) {
-	exportid := getNextExport()
-	vid := getNextVid()
 
+	//Avoid volume overlaping
+	time.Sleep(rand.Intn(5))
+	
         request := "rozo volume expand %s"
 	cmd := fmt.Sprintf(request,p.clusternodes)
         err := exec.Command("bash","-c",cmd).Run()
@@ -122,6 +124,8 @@ func (p *rozoProvisioner) Provision(options controller.ProvisionOptions) (*v1.Pe
 		fmt.Println("Error when creating new volume")
 		return nil,err
 	}
+	exportid := getNextExport()
+	vid := getNextVid()
 
 	err = createNewExport(vid)
 	for err != nil {
