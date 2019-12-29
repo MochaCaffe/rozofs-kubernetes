@@ -38,36 +38,46 @@ const (
 	provisionerName = "mushroommagnet/rozofs"
 )
 
-func getLastVid() string {
+func getNextVid() (string, error) {
 	cmd := "rozo volume list | grep 'VOLUME' | awk '{print $3}' | sed -e 's/://' | tail -n1 | tr -d '\n' "
         out,err := exec.Command("bash","-c",cmd).Output()
 	value := string(out)
         if err != nil {
-                return fmt.Sprintf("Failed to get last Rozofs Vid")
-        }
-	if value == "" {
-		value = "0"
-	}
-	return value
-
-}
-func getNextExport() string {
-	cmd := "rozo export get | grep 'EXPORT' | awk '{print $3}' | sed -e 's/://' | tail -n1 | tr -d '\n' "
-        out,err := exec.Command("bash","-c",cmd).Output()
-	value := string(out)
-        if err != nil {
-                return fmt.Sprintf("Failed to get last Rozofs Export")
+                fmt.Sprintf("Failed to get last Rozofs Vid")
+		return "",err
         }
 	if value == "" {
 		value = "0"
 	}
 	i,er := strconv.Atoi(value)
 	if er != nil {
-		return fmt.Sprintf("Error when converting export id")
+		fmt.Sprintf("Error when converting export id")
+		return "",er
 	}
 	i += 1
 	output := strconv.Itoa(i)
-	return string(output)
+	return string(output),nil
+
+}
+func getNextExport() (string, error) {
+	cmd := "rozo export get | grep 'EXPORT' | awk '{print $3}' | sed -e 's/://' | tail -n1 | tr -d '\n' "
+        out,err := exec.Command("bash","-c",cmd).Output()
+	value := string(out)
+        if err != nil {
+                fmt.Sprintf("Failed to get last Rozofs Export")
+		return "",err
+        }
+	if value == "" {
+		value = "0"
+	}
+	i,er := strconv.Atoi(value)
+	if er != nil {
+		fmt.Sprintf("Error when converting export id")
+		return "",er
+	}
+	i += 1
+	output := strconv.Itoa(i)
+	return string(output),nil
 }
 
 func createNewExport(vid string) error{
@@ -112,8 +122,15 @@ func (p *rozoProvisioner) Provision(options controller.ProvisionOptions) (*v1.Pe
 
 	//Avoid volume overlaping by using mutex
 	p.mux.Lock()
+	exportid,err := getNextExport()
+	vid, err := getNextVid()
 
-        err := exec.Command("bash","-c",cmd).Run()
+	if err != nil {
+	        p.mux.Unlock()
+		return nil,err
+	}
+
+        err = exec.Command("bash","-c",cmd).Run()
 	i := 0
 
 	if err != nil {
@@ -121,8 +138,6 @@ func (p *rozoProvisioner) Provision(options controller.ProvisionOptions) (*v1.Pe
 		fmt.Println("Error when creating new volume")
 		return nil,err
 	}
-	vid := getLastVid()
-	exportid := getNextExport()
 
 	err = createNewExport(vid)
 	for err != nil {
@@ -194,6 +209,8 @@ func (p *rozoProvisioner) Delete(volume *v1.PersistentVolume) error {
 		return err
 	}
 	p.mux.Unlock()
+	defer time.Sleep(5 * time.Second)
+
 	return nil
 }
 
