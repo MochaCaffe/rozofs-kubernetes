@@ -21,11 +21,11 @@ import (
 	"os"
 	"time"
 	"syscall"
+	"sync"
         "os/exec"
 	"sigs.k8s.io/sig-storage-lib-external-provisioner/controller"
         "fmt"
 	"strconv"
-	"math/rand"
 	"k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/wait"
@@ -38,7 +38,7 @@ const (
 	provisionerName = "mushroommagnet/rozofs"
 )
 
-func getNextVid() string {
+func getLastVid() string {
 	cmd := "rozo volume list | grep 'VOLUME' | awk '{print $3}' | sed -e 's/://' | tail -n1 | tr -d '\n' "
         out,err := exec.Command("bash","-c",cmd).Output()
 	value := string(out)
@@ -48,13 +48,7 @@ func getNextVid() string {
 	if value == "" {
 		value = "0"
 	}
-	i,er := strconv.Atoi(value)
-	if er != nil {
-		return fmt.Sprintf("Error when converting volume id")
-	}
-	i += 1
-	output := strconv.Itoa(i)
-	return string(output)
+	return value
 
 }
 func getNextExport() string {
@@ -92,6 +86,7 @@ type rozoProvisioner struct {
 	identity string
 	exportnode string
 	clusternodes string
+	mux sync.Mutex
 }
 
 func NewRozoProvisioner() controller.Provisioner {
@@ -112,24 +107,27 @@ var _ controller.Provisioner = &rozoProvisioner{}
 // Provision creates a storage asset and returns a PV object representing it.
 func (p *rozoProvisioner) Provision(options controller.ProvisionOptions) (*v1.PersistentVolume, error) {
 
-	//Avoid volume overlaping
-	time.Sleep(rand.Intn(5))
-	
         request := "rozo volume expand %s"
 	cmd := fmt.Sprintf(request,p.clusternodes)
+
+	//Avoid volume overlaping by using mutex
+	p.mux.Lock()
+
         err := exec.Command("bash","-c",cmd).Run()
 	i := 0
 
 	if err != nil {
+	        p.mux.Unlock()
 		fmt.Println("Error when creating new volume")
 		return nil,err
 	}
+	vid := getLastVid()
 	exportid := getNextExport()
-	vid := getNextVid()
 
 	err = createNewExport(vid)
 	for err != nil {
 		if i > 10 {
+	                p.mux.Unlock()
 			fmt.Println("Error when creating new export")
 			return nil,err
 		}
@@ -137,8 +135,12 @@ func (p *rozoProvisioner) Provision(options controller.ProvisionOptions) (*v1.Pe
 		time.Sleep(10 * time.Second)
 		err = createNewExport(vid)
 	}
-
 	createNewMount(exportid)
+
+	//Release the mutex
+	p.mux.Unlock()
+
+	defer time.Sleep(5 * time.Second)
 
         pv := &v1.PersistentVolume{
                 ObjectMeta: metav1.ObjectMeta{
@@ -172,21 +174,26 @@ func (p *rozoProvisioner) Provision(options controller.ProvisionOptions) (*v1.Pe
 // Delete removes the storage asset that was created by Provision represented
 // by the given PV.
 func (p *rozoProvisioner) Delete(volume *v1.PersistentVolume) error {
+	p.mux.Lock()
 	cmd := exec.Command("rozo","mount","remove","-i",volume.Annotations["exportid"])
 	err := cmd.Run()
 	if err != nil {
+		p.mux.Unlock()
 		return err
 	}
         cmd = exec.Command("rozo","export","remove","-f",volume.Annotations["exportid"])
 	err = cmd.Run()
 	if err != nil {
+		p.mux.Unlock()
 		return err
 	}
         cmd = exec.Command("rozo","volume","remove","-v",volume.Annotations["vid"])
 	err = cmd.Run()
 	if err != nil {
+		p.mux.Unlock()
 		return err
 	}
+	p.mux.Unlock()
 	return nil
 }
 
