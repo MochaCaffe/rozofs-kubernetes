@@ -20,22 +20,25 @@ $ export EXPORTNODE="<export_node>"
 $ export CLUSTER="<node1> <node2> <node3> <node4> <...>"
 $ kubectl create configmap rozofs-cluster --from-literal=clusternodes="${CLUSTER}" --from-literal=exportnode="${EXPORTNODE}"
 ```
-  - Deploy the daemonset and the provisioner:
+  - Deploy the daemonset and the [FlexVolume driver](https://github.com/kubernetes/community/blob/master/contributors/devel/sig-storage/flexvolume.md):
 ```
 $ kubectl apply -f https://github.com/MochaCaffe/rozofs-provisioner/raw/master/daemonset.yaml
+```
+  - Deploy the provisioner:
+``` 
 $ kubectl apply -f https://github.com/MochaCaffe/rozofs-provisioner/raw/master/provisioner/deployment.yaml
 ```
 A storage class called "rozofs" is automatically created with the provisioner.
 
 ## Create a volume claim
 The provisioner watches for Persistent Volume Claims (PVC) that request a new Persistent Volume, and automatically provisions a new volume to be binded with the claim, using "rozofs" Storage Class.  
-A Persistent Volume defines mount parameters for the [FlexVolume driver](https://github.com/kubernetes/community/blob/master/contributors/devel/sig-storage/flexvolume.md).  
+A Persistent Volume defines mount instructions for the FlexVolume plugin.  
   - Create a PVC
 ```
 $ kubectl apply -f https://github.com/MochaCaffe/rozofs-provisioner/raw/master/provisioner/claim.yaml
 ```
 
-  - Then, mount the volume into a sample pod
+  - Then, mount the volume into a light pod:
 
 ```
 $ kubectl apply -f https://github.com/MochaCaffe/rozofs-provisioner/raw/master/provisioner/test-pod.yaml
