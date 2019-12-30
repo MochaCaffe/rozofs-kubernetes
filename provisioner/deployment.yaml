@@ -27,13 +27,13 @@ spec:
                   fieldPath: spec.nodeName
             - name: ROZO_EXPORT_HOSTNAME
               valueFrom:
-                secretKeyRef:
-                  name: rozofs-secret
+                configMapKeyRef:
+                  name: rozofs-cluster
                   key: exportnode
             - name: CLUSTER_NODES
               valueFrom:
-                secretKeyRef:
-                  name: rozofs-secret
+                configMapKeyRef:
+                  name: rozofs-cluster
                   key: clusternodes
 ---
 apiVersion: v1
