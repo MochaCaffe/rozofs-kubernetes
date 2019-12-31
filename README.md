@@ -16,8 +16,8 @@ Github: https://github.com/rozofs/rozofs
 
   - Define the export node and the cluster nodes on which Rozofs will create volumes, by creating a kubernetes secret.  The fileystem requires a layout with least 4 nodes in the cluster in order to deploy volumes. More info: http://rozofs.github.io/rozofs/master/AboutRozoFS.html#layouts
 ```
-$ export EXPORTNODE="<export_node>"
-$ export CLUSTER="<node1> <node2> <node3> <node4> <...>"
+$ EXPORTNODE="<export_node>"
+$ CLUSTER="<node1> <node2> <node3> <node4> <...>"
 $ kubectl create configmap rozofs-cluster --from-literal=clusternodes="${CLUSTER}" --from-literal=exportnode="${EXPORTNODE}"
 ```
   - Deploy the daemonset and the [FlexVolume driver](https://github.com/kubernetes/community/blob/master/contributors/devel/sig-storage/flexvolume.md):
@@ -30,7 +30,7 @@ $ kubectl apply -f https://github.com/MochaCaffe/rozofs-provisioner/raw/master/p
 ```
 A storage class called "rozofs" is automatically created with the provisioner.
 
-## Create a volume claim
+## Create a persistent volume claim
 The provisioner watches for Persistent Volume Claims (PVC) that request a new Persistent Volume, and automatically provisions a new volume to be binded with the claim, using "rozofs" Storage Class.  
 A Persistent Volume defines mount instructions for the FlexVolume plugin.  
   - Create a PVC
