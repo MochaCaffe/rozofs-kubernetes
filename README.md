@@ -3,7 +3,6 @@
 This is a functional implementation of Rozofs distributed filesystem on Kubernetes.  
 This project features a daemonset to bring up Rozofs daemons on all kubernetes nodes,
 and a deployment to bring up a provisioner for dynamic Rozofs volume provisioning.  
-This project includes code from [kvaps/docker-rozofs]  and [kubernetes-sigs/sig-storage-lib-external-provisioner] 
 
 ## About Rozofs
 Wiki: http://rozofs.github.io/rozofs/master/AboutRozoFS.html  
@@ -44,11 +43,13 @@ $ kubectl apply -f https://github.com/MochaCaffe/rozofs-provisioner/raw/master/p
 $ kubectl apply -f https://github.com/MochaCaffe/rozofs-provisioner/raw/master/provisioner/test-pod.yaml
 ```
 ## Credits
-  - [dpertin/docker-rozofs]  
-  - [kvaps/docker-rozofs]  
+  - [dpertin/docker-rozofs]  - Dockerize RozoFS services 
+  - [kvaps/docker-rozofs]  - Deamonset
+  - [kubernetes-sigs/sig-storage-lib-external-provisioner] - Provisioner Go file
   - [itnext.io - How to create a custom persistent volume plugin in Kubernetes](https://itnext.io/how-to-create-a-custom-persistent-volume-plugin-in-kubernetes-via-flexvolume-part-1-f6d9d966e123)
 
    [rozofs/rozofs]: <https://github.com/rozofs/rozofs>
    [dpertin/docker-rozofs]: <https://github.com/dpertin/docker-rozofs>
+   
    [kvaps/docker-rozofs]: <https://github.com/kvaps/docker-rozofs>
    [kubernetes-sigs/sig-storage-lib-external-provisioner]: <https://github.com/kubernetes-sigs/sig-storage-lib-external-provisioner>
