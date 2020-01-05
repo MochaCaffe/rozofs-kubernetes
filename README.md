@@ -13,7 +13,7 @@ Github: https://github.com/rozofs/rozofs
   - rpcbind & [jq](https://stedolan.github.io/jq/) have to be installed on each node
 ## Deployment:
 
-  - Define the export node and the cluster nodes on which Rozofs will create volumes, by creating a kubernetes secret.  The fileystem requires a layout with least 4 nodes in the cluster in order to deploy volumes. More info: http://rozofs.github.io/rozofs/master/AboutRozoFS.html#layouts
+  - Define the export node and the cluster nodes on which Rozofs will create volumes, by creating a kubernetes configmap.  The fileystem requires a layout with least 4 nodes in the cluster in order to deploy volumes. More info: http://rozofs.github.io/rozofs/master/AboutRozoFS.html#layouts
 ```
 $ EXPORTNODE="<export_node>"
 $ CLUSTER="<node1> <node2> <node3> <node4> <...>"
