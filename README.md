@@ -45,7 +45,7 @@ $ kubectl apply -f https://github.com/MochaCaffe/rozofs-provisioner/raw/master/p
 ## Credits
   - [dpertin/docker-rozofs]  - Dockerize RozoFS services 
   - [kvaps/docker-rozofs]  - Deamonset
-  - [kubernetes-sigs/sig-storage-lib-external-provisioner] - Provisioner Go file
+  - [kubernetes-sigs/sig-storage-lib-external-provisioner] - Example provisioner golang file
   - [itnext.io - How to create a custom persistent volume plugin in Kubernetes](https://itnext.io/how-to-create-a-custom-persistent-volume-plugin-in-kubernetes-via-flexvolume-part-1-f6d9d966e123)
 
    [rozofs/rozofs]: <https://github.com/rozofs/rozofs>
