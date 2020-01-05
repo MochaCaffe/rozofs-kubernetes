@@ -47,15 +47,15 @@ domount() {
   fi
   
   bindPath="/mnt/rozofs@${node}/export_${export_id}"
+  
+  if ! mountpoint -q "${bindPath}";then
+    err "{ \"status\": \"Failure\", \"message\": \"Rozofs mountpoint not available\"}"
+    exit 1
+  fi
 
   if mountpoint -q "${mntPath}"; then
     log "{\"status\": \"Success\"}"
     exit 0
-  fi
-
-  if ! mountpoint -q "${bindPath}";then
-    err "{ \"status\": \"Failure\", \"message\": \"Rozofs mountpoint not available\"}"
-    exit 1
   fi
 
   mkdir -p "${mntPath}" &> /dev/null
