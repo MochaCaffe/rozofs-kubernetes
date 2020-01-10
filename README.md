@@ -1,7 +1,7 @@
 # Rozofs Provisioner
 
-This is a functional implementation of Rozofs distributed filesystem on Kubernetes.  
-This project features a daemonset to bring up Rozofs daemons on all kubernetes nodes,
+This project is a functional implementation of Rozofs distributed filesystem on Kubernetes.  
+It features a daemonset to bring up Rozofs daemons on all kubernetes nodes,
 and a deployment to bring up a provisioner for dynamic Rozofs volume provisioning.  
 
 ## About Rozofs
