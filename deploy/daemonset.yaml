@@ -14,10 +14,6 @@ spec:
       labels:
         app: rozofs
     spec:
-      tolerations:
-      - key: node-role.kubernetes.io/master
-        operator: Exists
-        effect: NoSchedule
       hostNetwork: true
       dnsPolicy: ClusterFirstWithHostNet
       initContainers:

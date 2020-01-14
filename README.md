@@ -21,11 +21,11 @@ $ kubectl create configmap rozofs-cluster --from-literal=clusternodes="${CLUSTER
 ```
   - Deploy the daemonset and the [FlexVolume driver](https://github.com/kubernetes/community/blob/master/contributors/devel/sig-storage/flexvolume.md):
 ```
-$ kubectl apply -f https://github.com/MochaCaffe/rozofs-provisioner/raw/master/daemonset.yaml
+$ kubectl apply -f https://github.com/MochaCaffe/rozofs-provisioner/raw/master/deploy/daemonset.yaml
 ```
   - Deploy the provisioner:
 ``` 
-$ kubectl apply -f https://github.com/MochaCaffe/rozofs-provisioner/raw/master/provisioner/deployment.yaml
+$ kubectl apply -f https://github.com/MochaCaffe/rozofs-provisioner/raw/master/deploy/provisioner-deploy.yaml
 ```
 A storage class called "rozofs" is automatically created with the provisioner.
 
@@ -34,13 +34,13 @@ The provisioner watches for Persistent Volume Claims (PVC) that request a new Pe
 A Persistent Volume defines mount instructions for the FlexVolume plugin.  
   - Create a PVC
 ```
-$ kubectl apply -f https://github.com/MochaCaffe/rozofs-provisioner/raw/master/provisioner/claim.yaml
+$ kubectl apply -f https://github.com/MochaCaffe/rozofs-provisioner/raw/master/deploy/claim.yaml
 ```
 
   - Then, mount the volume into a light pod:
 
 ```
-$ kubectl apply -f https://github.com/MochaCaffe/rozofs-provisioner/raw/master/provisioner/test-pod.yaml
+$ kubectl apply -f https://github.com/MochaCaffe/rozofs-provisioner/raw/master/deploy/test-pod.yaml
 ```
 ## Credits
   - [dpertin/docker-rozofs]  - Dockerize RozoFS services 
@@ -50,6 +50,6 @@ $ kubectl apply -f https://github.com/MochaCaffe/rozofs-provisioner/raw/master/p
 
    [rozofs/rozofs]: <https://github.com/rozofs/rozofs>
    [dpertin/docker-rozofs]: <https://github.com/dpertin/docker-rozofs>
-   
+   [kvaps/flexvolume-block]: <https://github.com/kvaps/flexvolume-block>
    [kvaps/docker-rozofs]: <https://github.com/kvaps/docker-rozofs>
    [kubernetes-sigs/sig-storage-lib-external-provisioner]: <https://github.com/kubernetes-sigs/sig-storage-lib-external-provisioner>

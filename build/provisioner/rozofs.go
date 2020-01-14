@@ -39,7 +39,7 @@ const (
 )
 
 func getNextVid() (string, error) {
-	cmd := "rozo volume list | grep 'VOLUME' | awk '{print $3}' | sed -e 's/://' | tail -n1 | tr -d '\n' "
+	cmd := "rozo volume list | grep 'VOLUME ' | awk '{print $3}' | sed -e 's/://' | tail -n1 | tr -d '\n' "
         out,err := exec.Command("bash","-c",cmd).Output()
 	value := string(out)
         if err != nil {
@@ -51,7 +51,7 @@ func getNextVid() (string, error) {
 	}
 	i,er := strconv.Atoi(value)
 	if er != nil {
-		fmt.Sprintf("Error when converting export id")
+		fmt.Sprintf("Error when converting volume id")
 		return "",er
 	}
 	i += 1
@@ -60,7 +60,7 @@ func getNextVid() (string, error) {
 
 }
 func getNextExport() (string, error) {
-	cmd := "rozo export get | grep 'EXPORT' | awk '{print $3}' | sed -e 's/://' | tail -n1 | tr -d '\n' "
+	cmd := "rozo export get | grep 'EXPORT ' | awk '{print $3}' | sed -e 's/://' | tail -n1 | tr -d '\n' "
         out,err := exec.Command("bash","-c",cmd).Output()
 	value := string(out)
         if err != nil {
@@ -91,6 +91,14 @@ func createNewMount(exportid string) error{
 	err := cmd.Run()
 	return err
 }
+
+func createNewVolume(vid string,p *rozoProvisioner) error{
+        request := "rozo volume expand %s"
+	cmd := exec.Command("bash","-c",fmt.Sprintf(request,p.clusternodes))
+	err := cmd.Run()
+	return err
+}
+
 type rozoProvisioner struct {
 	driver string
 	identity string
@@ -117,10 +125,8 @@ var _ controller.Provisioner = &rozoProvisioner{}
 // Provision creates a storage asset and returns a PV object representing it.
 func (p *rozoProvisioner) Provision(options controller.ProvisionOptions) (*v1.PersistentVolume, error) {
 
-        request := "rozo volume expand %s"
-	cmd := fmt.Sprintf(request,p.clusternodes)
 
-	//Avoid volume overlaping by using mutex
+	//Avoid volume claim overlaping by using mutex
 	p.mux.Lock()
 	exportid,err := getNextExport()
 	vid, err := getNextVid()
@@ -130,9 +136,7 @@ func (p *rozoProvisioner) Provision(options controller.ProvisionOptions) (*v1.Pe
 		return nil,err
 	}
 
-        err = exec.Command("bash","-c",cmd).Run()
-	i := 0
-
+	err = createNewVolume(vid,p)
 	if err != nil {
 	        p.mux.Unlock()
 		fmt.Println("Error when creating new volume")
@@ -140,6 +144,7 @@ func (p *rozoProvisioner) Provision(options controller.ProvisionOptions) (*v1.Pe
 	}
 
 	err = createNewExport(vid)
+	i := 0
 	for err != nil {
 		if i > 10 {
 	                p.mux.Unlock()
@@ -152,7 +157,6 @@ func (p *rozoProvisioner) Provision(options controller.ProvisionOptions) (*v1.Pe
 	}
 	createNewMount(exportid)
 
-	//Release the mutex
 	p.mux.Unlock()
 
 	defer time.Sleep(5 * time.Second)
@@ -160,13 +164,9 @@ func (p *rozoProvisioner) Provision(options controller.ProvisionOptions) (*v1.Pe
         pv := &v1.PersistentVolume{
                 ObjectMeta: metav1.ObjectMeta{
                         Name: options.PVName,
-			Annotations: map[string]string{
-				"exportid": exportid,
-				"vid": vid,
-			},
                 },
                 Spec: v1.PersistentVolumeSpec{
-                        PersistentVolumeReclaimPolicy: "Delete",
+                        PersistentVolumeReclaimPolicy: *options.StorageClass.ReclaimPolicy,
                         AccessModes:                   options.PVC.Spec.AccessModes,
                         Capacity: v1.ResourceList{
                                 v1.ResourceName(v1.ResourceStorage): options.PVC.Spec.Resources.Requests[v1.ResourceName(v1.ResourceStorage)],
@@ -177,6 +177,7 @@ func (p *rozoProvisioner) Provision(options controller.ProvisionOptions) (*v1.Pe
                                         Options: map[string]string{
                                                 "node": p.exportnode,
                                                 "export_id": exportid,
+				                "vid": vid,
                                         },
                                 },
                         },
@@ -190,19 +191,19 @@ func (p *rozoProvisioner) Provision(options controller.ProvisionOptions) (*v1.Pe
 // by the given PV.
 func (p *rozoProvisioner) Delete(volume *v1.PersistentVolume) error {
 	p.mux.Lock()
-	cmd := exec.Command("rozo","mount","remove","-i",volume.Annotations["exportid"])
+	cmd := exec.Command("rozo","mount","remove","-i",volume.Spec.FlexVolume.Options["export_id"])
 	err := cmd.Run()
 	if err != nil {
 		p.mux.Unlock()
 		return err
 	}
-        cmd = exec.Command("rozo","export","remove","-f",volume.Annotations["exportid"])
+        cmd = exec.Command("rozo","export","remove","-f",volume.Spec.FlexVolume.Options["export_id"])
 	err = cmd.Run()
 	if err != nil {
 		p.mux.Unlock()
 		return err
 	}
-        cmd = exec.Command("rozo","volume","remove","-v",volume.Annotations["vid"])
+        cmd = exec.Command("rozo","volume","remove","-v",volume.Spec.FlexVolume.Options["vid"])
 	err = cmd.Run()
 	if err != nil {
 		p.mux.Unlock()
