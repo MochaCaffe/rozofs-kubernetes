@@ -25,7 +25,7 @@ $ kubectl apply -f https://github.com/MochaCaffe/rozofs-provisioner/raw/master/d
 ```
   - Deploy the provisioner:
 ``` 
-$ kubectl apply -f https://github.com/MochaCaffe/rozofs-provisioner/raw/master/deploy/provisioner-deploy.yaml
+$ kubectl apply -f https://github.com/MochaCaffe/rozofs-provisioner/raw/master/deploy/provisioner.yaml
 ```
 A storage class called "rozofs" is automatically created with the provisioner.
 
