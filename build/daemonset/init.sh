@@ -65,7 +65,7 @@ done &
 
 # Fix failed mounts
 while : ; do
-	if [[ "$HOSTNAME" == "$ROZO_EXPORT_HOSTNAME" ]];then
+	if [[ "$HOSTNAME" == "$ROZO_EXPORT_HOSTNAME" || "$POD_IP" == "$ROZO_EXPORT_HOSTNAME" ]];then
 
 		mountErrors=$(comm -3 <(rozo export get | grep 'EXPORT ' | wc -l) <(df 2>/dev/null | grep rozofs | wc -l))
 		if [[ ! -z "$mountErrors" ]];then
