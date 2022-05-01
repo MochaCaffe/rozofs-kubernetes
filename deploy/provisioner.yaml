@@ -18,7 +18,7 @@ spec:
       serviceAccountName: rozofs
       containers:
         - name: rozofs-provisioner
-          image: mushroommagnet/rozofs-provision:latest
+          image: mochacoffee/rozofs-provision:latest
           imagePullPolicy: "Always"
           env:
             - name: NODE_NAME
@@ -101,5 +101,5 @@ kind: StorageClass
 apiVersion: storage.k8s.io/v1
 metadata:
   name: rozofs
-provisioner: mushroommagnet/rozofs
+provisioner: mochacoffee/rozofs
 reclaimPolicy: Delete

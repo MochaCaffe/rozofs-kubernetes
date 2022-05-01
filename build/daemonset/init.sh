@@ -4,7 +4,7 @@
 ### Install Driver
 ###
 
-VENDOR=mushroommagnet
+VENDOR=mochacoffee
 DRIVER=rozofs
 
 driver_dir=$VENDOR${VENDOR:+"~"}${DRIVER}

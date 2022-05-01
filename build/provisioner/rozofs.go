@@ -35,7 +35,7 @@ import (
 )
 
 const (
-	provisionerName = "mushroommagnet/rozofs"
+	provisionerName = "mochacoffee/rozofs"
 )
 
 func getNextVid() (string, error) {

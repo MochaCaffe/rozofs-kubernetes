@@ -1,3 +1,3 @@
 ```
-$ docker build -t mushroommagnet/rozofs-ds .
+$ docker build -t mochacoffee/rozofs-ds .
 ```

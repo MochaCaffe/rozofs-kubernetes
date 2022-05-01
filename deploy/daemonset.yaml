@@ -18,7 +18,7 @@ spec:
       dnsPolicy: ClusterFirstWithHostNet
       initContainers:
       - name: init
-        image: mushroommagnet/rozofs-ds:latest
+        image: mochacoffee/rozofs-ds:latest
         command:
         - /bin/sh
         - -c
@@ -36,7 +36,7 @@ spec:
           mountPath: /var/run/systemd
       containers:
       - name: rozofs
-        image: mushroommagnet/rozofs-ds:latest
+        image: mochacoffee/rozofs-ds:latest
         volumeMounts:
         - name: config
           mountPath: /etc/rozofs

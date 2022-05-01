@@ -1,4 +1,4 @@
-IMAGE?=mushroommagnet/rozofs-provision
+IMAGE?=mochacoffee/rozofs-provision
 
 all: provisioner-file image clean
 provisioner-file:
